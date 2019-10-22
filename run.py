@@ -1,6 +1,9 @@
 import numpy as np
 import cv2
 from grade_paper import ProcessPage
+from evaluate import loadTest, evaluate
+
+testAnswers = loadTest('test.csv')
 
 #alogrithm for sorting points clockwise
 def clockwise_sort(x):
@@ -25,7 +28,7 @@ gray = cv2.bilateralFilter(gray, 11, 17, 17)
 edged = cv2.Canny(gray, 250, 300)
 
 #find the contours
-temp_img, contours, _ = cv2.findContours(edged.copy(), cv2.RETR_TREE, cv2.CHAIN_APPROX_SIMPLE)
+contours, _ = cv2.findContours(edged.copy(), cv2.RETR_TREE, cv2.CHAIN_APPROX_SIMPLE)
 
 #sort the contours
 contours = sorted(contours, key=cv2.contourArea, reverse=True)[:10]
@@ -83,9 +86,10 @@ if biggestContour is not None:
 if biggestContour is not None:
 	if answers != -1:
 		cv2.drawContours(image, [biggestContour], -1, (0, 255, 0), 3)
-		print answers
+		point, total = evaluate(testAnswers, answers)
+		print("Result: {0}/{1}".format(point, total))
 		if codes is not None:
-			print codes
+			print(codes)
 	else:
 		cv2.drawContours(image, [biggestContour], -1, (0, 0, 255), 3)
 

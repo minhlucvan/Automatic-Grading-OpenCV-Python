@@ -81,7 +81,8 @@ def ProcessPage(paper):
 
     #draw the name if found from the QR code
     if codes is not None:
-        cv2.putText(paper, codes[0], (int(0.28*dimensions[0]), int(0.125*dimensions[1])), cv2.FONT_HERSHEY_SIMPLEX, 0.4, (0, 0, 0), 1)
+        print(codes[0])
+        # cv2.putText(paper, codes[0], (int(0.28*dimensions[0]), int(0.125*dimensions[1])), cv2.FONT_HERSHEY_SIMPLEX, 0.4, (0, 0, 0), 1)
     else:
         codes = [-1]
     return answers, paper, codes
